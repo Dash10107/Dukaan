@@ -2,6 +2,7 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const dbConnect = require("./config/dbConnect");
 const { notFound, errorHandler } = require("./middlewares/error.handler");
+const authRotes = require("./routes/auth.route")
 const app = express();
 const dotenv = require("dotenv")
 const PORT = process.env.port || 5000;
@@ -21,6 +22,8 @@ app.get('/', async (req, res) => {
   });
 
 
+
+app.use("/api/v1/user",authRotes);
 app.use(notFound);
 app.use(errorHandler);
 

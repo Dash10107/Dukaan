@@ -10,4 +10,4 @@ const supplierSchema = new mongoose.Schema({
   ordersReceived: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
 });
 
-export default mongoose.model('Supplier', supplierSchema);
+module.exports =    mongoose.model('Supplier', supplierSchema);
