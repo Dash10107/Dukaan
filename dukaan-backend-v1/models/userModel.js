@@ -1,8 +1,8 @@
 const mongoose = require("mongoose"); // Erase if already required
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
+const crypto = require("node:crypto");
 // Declare the Schema of the Mongo model
-var userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     firstname: {
       type: String,
@@ -29,6 +29,7 @@ var userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
+      enum: ['user', 'admin', 'seller'],
     },
     isBlocked: {
       type: Boolean,
@@ -51,7 +52,7 @@ var userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 userSchema.pre("save", async function (next) {

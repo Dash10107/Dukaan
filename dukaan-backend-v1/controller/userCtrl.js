@@ -9,7 +9,7 @@ const Order = require("../models/orderModel");
 const uniqid = require("uniqid");
 
 const validateMongoDbId = require("../utils/validateMongodbId");
- const crypto = require("crypto");
+ const crypto = require("node:crypto");
 const jwt = require("jsonwebtoken");
 const sendEmail = require("./emailCtrl");
 
@@ -342,7 +342,7 @@ const userCart = asyncHandler(async (req, res) => {
   validateMongoDbId(_id);
   try {
 
-    let newCart = await new Cart({
+    const newCart = await new Cart({
       userId: _id,
       productId,
       color,
@@ -399,7 +399,7 @@ const updateQuantity = asyncHandler(async (req, res) => {
     }
 
     // Update the quantity
-    cartItem.quantity = parseInt(newQuantity, 10);
+    cartItem.quantity = Number.parseInt(newQuantity, 10);
 
     // Save the updated cart item
     await cartItem.save();
