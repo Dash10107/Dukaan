@@ -15,6 +15,8 @@ const colorRouter = require("../routes/colorRoute");
 const enqRouter = require("../routes/enqRoute");
 const couponRouter = require("../routes/couponRoute");
 const uploadRouter = require("../routes/uploadRoute");
+const apiKeyRouter = require("../routes/apiKeyRoute");
+const publicRouter = require("../routes/publicRoute");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -35,8 +37,8 @@ app.use("/api/coupon", couponRouter);
 app.use("/api/color", colorRouter);
 app.use("/api/enquiry", enqRouter);
 app.use("/api/upload", uploadRouter);
-
-
+app.use('/api/apikey', apiKeyRouter);
+app.use('/api/public',publicRouter)
 app.get('/', async (req, res) => {
     
     res.status(200).json({

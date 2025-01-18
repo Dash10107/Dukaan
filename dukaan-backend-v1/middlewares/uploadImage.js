@@ -1,7 +1,7 @@
 const multer = require("multer");
 const sharp = require("sharp");
-const path = require("path");
-const fs = require("fs");
+const path = require("node:path");
+const fs = require("node:fs");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "../public/images/"));
@@ -55,4 +55,30 @@ const blogImgResize = async (req, res, next) => {
   );
   next();
 };
-module.exports = { uploadPhoto, productImgResize, blogImgResize };
+
+
+
+
+
+// Configure Multer for file uploads
+const exceldiskStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/'); // Save files in the "uploads" directory
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const excelfileFilter = (req, file, cb) => {
+  const ext = path.extname(file.originalname);
+  if (ext !== '.xlsx' && ext !== '.csv') {
+    return cb(new Error('Only Excel or CSV files are allowed'), false);
+  }
+  cb(null, true);
+};
+
+const  upload = multer({ storage: exceldiskStorage, excelfileFilter }).single('file');
+
+
+module.exports = { uploadPhoto, productImgResize, blogImgResize,upload };
