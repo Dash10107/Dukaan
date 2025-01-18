@@ -1,20 +1,8 @@
-Live at : https://digic-admin.vercel.app/
+# React + Vite
 
-Needed Admin Login Though To Access Admin Portal. 
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-You can use it locally through 
+Currently, two official plugins are available:
 
-git clone https://github.com/Dash10107/Digic-Admin/
-cd Digic-Admin 
-npm install 
-npm run start
-
-Key Features : 
-
--> Statistics about E-comm platform
--> Adding New Products with all details , images ,brands and categories. 
--> Adding Brands, Categories, Colors to the Database.
--> Viewing Order Status and Handling Orders.
--> Deleting , Updating Products and all other features.
--> Vistiing Enquiries and Processing their Status.
--> Adding New Coupons for Marketing. 
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
