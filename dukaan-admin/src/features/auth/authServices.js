@@ -3,18 +3,22 @@ import { config } from "../../utils/axiosconfig";
 import { base_url } from "../../utils/baseUrl";
 
 const login = async (user) => {
-  const response = await axios.post(`${base_url}user/admin-login`, user);
+  const response = await axios.post(`${base_url}user/login`, user);
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
   return response.data;
 };
 
-const register = async (user) => { 
-    const response = await axios.post("http://localhost:5000/api/user/admin-signup", userData); // Replace with actual API endpoint
-    return response.data; // Ensure the response data contains the user information
-  // other methods like login, getOrders, etc.
+const register = async (user) => {
+  const response = await axios.post(`${base_url}user/register`, user);
+  if (response.data) {
+    localStorage.setItem("user", JSON.stringify(response.data));
+  }
+  return response.data;
 };
+
+
 
 
 const getOrders = async () => {

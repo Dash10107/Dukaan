@@ -7,16 +7,18 @@ import { LockIcon, MailIcon, UserIcon } from 'lucide-react'
 import { register } from '../features/auth/authSlice'
 
 const schema = yup.object().shape({
-  name: yup.string().required('Full name is required'),
+  firstname: yup.string().required('First name is required'),
+  lastname: yup.string().required('Last name is required'),
+  mobile: yup.string().required('Mobile number is required').matches(/^\d{10}$/, 'Mobile must be a 10-digit number'),
   email: yup
     .string()
     .email('Email should be valid')
     .required('Email is required'),
-  password: yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
-  confirmPassword: yup.string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm password is required'),
-})
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters'),
+});
 
 const Signup = () => {
   const dispatch = useDispatch()
@@ -27,10 +29,12 @@ const Signup = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      firstname: '',
+      lastname: '',
+      mobile: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      role: "seller",
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -40,7 +44,7 @@ const Signup = () => {
 
   React.useEffect(() => {
     if (isSuccess) {
-      navigate('/admin')
+      navigate('/')
     }
   }, [user, isError, isSuccess, isLoading])
 
@@ -108,16 +112,34 @@ const Signup = () => {
               <div className="relative">
                 <UserIcon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />
                 <input
-                  id="name"
-                  name="name"
+                  id="firstname"
+                  name="firstname"
                   type="text"
-                  autoComplete="name"
+                  autoComplete="firstname"
                   required
                   className="appearance-none block w-full pl-10 pr-3 py-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Full name"
+                  placeholder="first name"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.name}
+                  value={formik.values.firstname}
+                />
+                {formik.touched.name && formik.errors.name && (
+                  <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
+                )}
+              </div>
+              <div className="relative">
+                <UserIcon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />
+                <input
+                  id="lastname"
+                  name="lastname"
+                  type="text"
+                  autoComplete="lastname"
+                  required
+                  className="appearance-none block w-full pl-10 pr-3 py-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="last name"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.lastname}
                 />
                 {formik.touched.name && formik.errors.name && (
                   <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
@@ -142,6 +164,24 @@ const Signup = () => {
                 )}
               </div>
               <div className="relative">
+                <MailIcon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />
+                <input
+                  id="mobile"
+                  name="mobile"
+                  type="string"
+                  autoComplete="mobile"
+                  required
+                  className="appearance-none block w-full pl-10 pr-3 py-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="mobile"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.mobile}
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
+                )}
+              </div>
+              <div className="relative">
                 <LockIcon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />
                 <input
                   id="password"
@@ -159,24 +199,7 @@ const Signup = () => {
                   <div className="text-red-500 text-sm mt-1">{formik.errors.password}</div>
                 )}
               </div>
-              <div className="relative">
-                <LockIcon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  className="appearance-none block w-full pl-10 pr-3 py-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Confirm password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.confirmPassword}
-                />
-                {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-                  <div className="text-red-500 text-sm mt-1">{formik.errors.confirmPassword}</div>
-                )}
-              </div>
+             
             </div>
 
             <div className="flex items-center">

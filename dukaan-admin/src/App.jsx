@@ -26,6 +26,7 @@ import ViewEnq from "./pages/ViewEnq";
 import ViewOrder from "./pages/ViewOrder";
 import Signup from "./pages/Signup";
 import ProductDetail from "./pages/ProductDetail";
+import ApiDocs from "./pages/ApiDocs";
 
 const App = () => {
   return (
@@ -63,6 +64,9 @@ const App = () => {
         <Route path="list-product" element={<Productlist />} />
         <Route path="product" element={<Addproduct />} />
         <Route path="product/:id" element={<ProductDetail />} />
+        <Route path="api-docs" element={<ApiDocs />} />
+
+
       </Route>
     </Routes>
   </Router>
