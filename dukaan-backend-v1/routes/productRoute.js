@@ -18,11 +18,11 @@ const { isAdmin, authMiddleware, isSeller,} = require("../middlewares/authMiddle
 const { productImgResize, uploadPhoto, upload } = require("../middlewares/uploadImage");
 const router = express.Router();
 
-router.post("/", authMiddleware, isSeller,   createProduct);
+router.post("/", authMiddleware, isSeller || isAdmin,   createProduct);
 router.put(
   "/upload/:id",
   authMiddleware,
-  isAdmin,
+ isSeller || isAdmin,
   uploadPhoto.array("images", 2),
   productImgResize,
   uploadImages

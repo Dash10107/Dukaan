@@ -1,13 +1,13 @@
 const express = require("express");
 const { uploadImages, deleteImages } = require("../controller/uploadCtrl");
-const { isAdmin, authMiddleware } = require("../middlewares/authMiddleware");
+const { isAdmin, authMiddleware, isSeller } = require("../middlewares/authMiddleware");
 const { uploadPhoto, productImgResize } = require("../middlewares/uploadImage");
 const router = express.Router();
 
 router.post(
   "/",
   authMiddleware,
-  isAdmin,
+  isSeller || isAdmin,
   uploadPhoto.array("images", 10),
   productImgResize,
   uploadImages
