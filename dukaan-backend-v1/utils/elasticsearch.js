@@ -4,7 +4,7 @@ const productModel = require("../models/productModel");
 const client = new Client({
   node: "https://my-elasticsearch-project-ed67cc.es.us-east-1.aws.elastic.cloud:443",
   auth: {
-    apiKey: proccess.env.ELASTICSEARCH_API_KEY,
+    apiKey: process.env.ELASTICSEARCH_API_KEY,
   },
 });
 
