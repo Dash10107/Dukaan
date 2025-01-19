@@ -10,7 +10,9 @@ const {
   uploadImages,
   getProductsBySellerId,
   getSellerStats,
-  bulkUploadProducts
+  bulkUploadProducts,
+  search,
+  recommend
 } = require("../controller/productCtrl");
 const { isAdmin, authMiddleware, isSeller,} = require("../middlewares/authMiddleware");
 const { productImgResize, uploadPhoto, upload } = require("../middlewares/uploadImage");
@@ -39,6 +41,8 @@ router.delete("/:id",authMiddleware, isSeller,  deleteProduct);
  router.get("/seller/:id", authMiddleware, getProductsBySellerId);
  router.get("/seller/stats", authMiddleware, isSeller, getSellerStats);
 router.post("/bulk", authMiddleware, isSeller, upload, bulkUploadProducts);
+router.get('/search/elastic',search)
+router.get('/recommend',recommend)
 
 module.exports = router;
 

@@ -6,6 +6,7 @@ const validateMongoDbId = require("../utils/validateMongodbId");
 const {cloudinaryUploadImg} = require("../utils/cloudinary");
 const fs = require("node:fs");
 const XLSX = require('xlsx');
+const {client} = require("../utils/elasticsearch");
 
 const createProduct = asyncHandler(async (req, res) => {
     try {
@@ -14,11 +15,106 @@ const createProduct = asyncHandler(async (req, res) => {
       }
       req.body.seller = req.user._id;
       const newProduct = await Product.create(req.body);
+      const elasticProduct = {
+        vector: [
+          Number.parseFloat(req.body.price || 0), // Adjust vector fields as needed
+          Number.parseFloat(req.body.quantity || 0),
+          Number.parseFloat(req.body.sold || 0),
+        ],
+        title: req.body.title,
+        description: req.body.description,
+        category: req.body.category,
+        brand: req.body.brand,
+        tags: req.body.tags,
+        price: req.body.price,
+        quantity: req.body.quantity,
+        sold: req.body.sold,
+      };
+      
+      // Index the product in Elasticsearch
+      await client.index({
+        index: "e-commerce",
+        body: elasticProduct,
+      });
+      
       res.json(newProduct);
     } catch (error) {
       throw new Error(error);
     }
   });
+
+
+// Search products
+const search = async (req, res) => {
+  const { query, category } = req.body;
+  try {
+    const searchBody = {
+      query: {
+        bool: {
+          must: [
+            {
+              multi_match: {
+                query: query,
+                fields: ['title^3', 'description', 'tags'],
+                fuzziness: 'AUTO',
+              },
+            },
+          ],
+          filter: category
+            ? [
+                {
+                  term: { category: category },
+                },
+              ]
+            : [],
+        },
+      },
+    };
+
+    const response = await client.search({
+      index: 'e-commerce',
+      body: searchBody,
+    });
+
+    const results = response.hits.hits.map((hit) => ({
+      id: hit._id,
+      ...hit._source,
+    }));
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Recommend similar products
+ const recommend = async (req, res) => {
+    const { vector } = req.query; // Vector should be passed as a stringified array
+    try {
+      const body = {
+        query: {
+          script_score: {
+            query: { match_all: {} },
+            script: {
+              source: "cosineSimilarity(params.queryVector, 'vector') + 1.0",
+              params: { queryVector: JSON.parse(vector) }
+            }
+          }
+        },
+        size: 10
+      };
+
+      const { hits } = await client.search({
+        index: 'e-commerce',
+        body
+      });
+  
+      const recommendations = hits.hits.map(hit => ({ id: hit._id, ...hit._source }));
+      res.status(200).json(recommendations);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+  
 
   const updateProduct = asyncHandler(async (req, res) => {
     const {id} = req.params;
@@ -318,4 +414,4 @@ const createProduct = asyncHandler(async (req, res) => {
   
 
   module.exports={createProduct,getaProduct,deleteProduct,updateProduct,getAllProduct,addToWishlist,rating,uploadImages,
-    getProductsBySellerId, getSellerStats, bulkUploadProducts }
+    getProductsBySellerId, getSellerStats, bulkUploadProducts,search,recommend}
