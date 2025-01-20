@@ -3,7 +3,7 @@ import { BarChart3, DollarSign, Users, ShoppingCart, TrendingUp, Package, Globe,
 export default function Dashboard() {
   const stats = [
     {
-      label: 'Total Revenue',
+      label: 'Total ',
       value: '$845,231.89',
       change: '+20.1%',
       icon: DollarSign,
@@ -48,26 +48,21 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8 ">
-        <div className='px-2 py-6 text-3xl font-semibold'>
-          <h1>
-            Dashboard
-          </h1>
-        </div>
+    <div className="min-h-screen bg-gray-900 p-8 ">
       {/* Stats Grid */}
       <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="rounded-xl border bg-white p-6 shadow-sm transition-all hover:shadow-md ">
+          <div key={stat.label} className="rounded-xl border  p-6 shadow-sm transition-all hover:shadow-md ">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 ">{stat.label}</p>
                 <h3 className="mt-1 text-2xl font-semibold">{stat.value}</h3>
               </div>
               <div className={`rounded-full p-3 ${
-                stat.trend === 'up' ? 'bg-green-100' : 'bg-red-100 '
+                stat.trend === 'up' ? 'bg-green-100 ' : 'bg-red-100 '
               }`}>
                 <stat.icon className={`h-6 w-6 ${
-                  stat.trend === 'up' ? 'text-green-600 ' : 'text-red-600'
+                  stat.trend === 'up' ? 'text-green-600 ' : 'text-red-600 '
                 }`} />
               </div>
             </div>
@@ -191,7 +186,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

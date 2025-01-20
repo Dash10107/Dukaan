@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import Meta from '../components/Meta';
-import BreadCrumb from '../components/BreadCrumb';
-import ProductCard from '../components/ProductCard';
-import Container from '../components/Container';
+import React, { useEffect, useState } from "react";
+import Meta from "../components/Meta";
+import BreadCrumb from "../components/BreadCrumb";
+import ProductCard from "../components/ProductCard";
+import Container from "../components/Container";
 import ReactStars from "react-rating-stars-component";
-import Color from '../components/Color';
+import Color from "../components/Color";
 
-import {useDispatch, useSelector} from 'react-redux';
-import { getAllProducts } from '../features/products/productSlice';
-import ResponsivePagination from 'react-responsive-pagination';
-import 'react-responsive-pagination/themes/classic.css';
-
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../features/products/productSlice";
+import ResponsivePagination from "react-responsive-pagination";
+import "react-responsive-pagination/themes/classic.css";
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
@@ -21,104 +20,117 @@ const OurStore = () => {
   const [limit, setLimit] = useState();
   const [page, setPage] = useState(1);
   // const [query, setQuery] = useState('');
-  const [sort, setSort] = useState('');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-  const [color, setColor] = useState('');
-  const [tag, setTag] = useState('');
-  const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
+  const [sort, setSort] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [color, setColor] = useState("");
+  const [tag, setTag] = useState("");
+  const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("");
   const [total, setTotal] = useState(0);
-  const [isInitialized, setIsInitialized] = useState(false); 
+  const [isInitialized, setIsInitialized] = useState(false);
   const dispatch = useDispatch();
 
-  const getProducts = ()=>{
-    dispatch(getAllProducts({limit:"6",page:"1"}));
-  }
-useEffect(()=>{getProducts(); },[])
-const productState = useSelector(state=>state?.product?.products);
+  const getProducts = () => {
+    dispatch(getAllProducts({ limit: "6", page: "1" }));
+  };
+  useEffect(() => {
+    getProducts();
+  }, []);
+  const productState = useSelector((state) => state?.product?.products);
 
-useEffect(() => {
-  if (total === 0 && productState.length > 0) {
-    setTotal(productState.length);
-  }
-}, [productState, total]);
+  useEffect(() => {
+    if (total === 0 && productState.length > 0) {
+      setTotal(productState.length);
+    }
+  }, [productState, total]);
 
-useEffect(()=>{
-  if (!isInitialized && productState.length > 0) {
-  const brands = new Set();
-  const categories = new Set();
-  const tags = new Set();
-  const colors = new Set();
-  
-  productState.forEach(item => {
-    if (item?.brand) brands.add(item.brand);
-    if (item?.category) categories.add(item.category);
-    if (item?.tags) tags.add(item.tags);
-    if (item?.color) item.color.forEach(c => colors.add(c));
-    
-  });
-  
-  setBrands([...brands]);
-  setCategories([...categories]);
-  setTags([...tags]);
-  setColors([...colors]);
+  useEffect(() => {
+    if (!isInitialized && productState.length > 0) {
+      const brands = new Set();
+      const categories = new Set();
+      const tags = new Set();
+      const colors = new Set();
+
+      productState.forEach((item) => {
+        if (item?.brand) brands.add(item.brand);
+        if (item?.category) categories.add(item.category);
+        if (item?.tags) tags.add(item.tags);
+        if (item?.color) item.color.forEach((c) => colors.add(c));
+      });
+
+      setBrands([...brands]);
+      setCategories([...categories]);
+      setTags([...tags]);
+      setColors([...colors]);
       setIsInitialized(true); // Mark as initialized
     }
   }, [productState, isInitialized]);
 
-
-
-useEffect(() => {
-  dispatch(getAllProducts({ brand, category, tag, minPrice, maxPrice, sort, page, limit }));
-}, [page, limit, sort, brand, category, tag, minPrice, maxPrice, color,dispatch]);
-
-
-
-
+  useEffect(() => {
+    dispatch(
+      getAllProducts({
+        brand,
+        category,
+        tag,
+        minPrice,
+        maxPrice,
+        sort,
+        page,
+        limit,
+      })
+    );
+  }, [
+    page,
+    limit,
+    sort,
+    brand,
+    category,
+    tag,
+    minPrice,
+    maxPrice,
+    color,
+    dispatch,
+  ]);
 
   return (
-<>
-<Meta title={"Our Store"} />
-<BreadCrumb title="Our Store" />
-<Container class1="store-wrapper home-wrapper-2 py-5">
+    <>
+      <Meta title={"Our Store"} />
+      <BreadCrumb title="Our Store" />
+      <Container class1="store-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-3">
             <div className="filter-card mb-3">
               <h3 className="filter-title">Shop By Categories</h3>
               <div>
                 <ul className="ps-0">
-                  {
-                    categories.map((item,index)=>{
-                      return (
-                        <li
-                          key={index}
-                          className={`cursor-pointer text-capitalize relative px-4 py-2 rounded ${
-                            category === item ? 'highlight' : ''
-                          }`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCategory(item);
-                          }}
-                        >
-                          {item}
-                          {category === item && (
-                            <span
-                              className="top-0 right-0 px-2 py-1 text-sm cursor-pointer text-white rounded-full "
-                              onClick={(e) => {
-                                e.stopPropagation(); // Prevent triggering the parent onClick
-                                setCategory('');
-                              }}
-                            >
-                              &times;
-                            </span>
-                          )}
-                        </li>
-                      );
-                      
-                    }
-                    )
-                  }
+                  {categories.map((item, index) => {
+                    return (
+                      <li
+                        key={index}
+                        className={`cursor-pointer text-capitalize relative px-4 py-2 rounded ${
+                          category === item ? "highlight" : ""
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCategory(item);
+                        }}
+                      >
+                        {item}
+                        {category === item && (
+                          <span
+                            className="top-0 right-0 px-2 py-1 text-sm cursor-pointer text-white rounded-full "
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent triggering the parent onClick
+                              setCategory("");
+                            }}
+                          >
+                            &times;
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
@@ -159,7 +171,9 @@ useEffect(() => {
                       id="floatingInput"
                       placeholder="From"
                       value={minPrice}
-                      onChange={(e)=>{setMinPrice(e.target.value)}}
+                      onChange={(e) => {
+                        setMinPrice(e.target.value);
+                      }}
                     />
                     <label htmlFor="floatingInput">From</label>
                   </div>
@@ -170,7 +184,9 @@ useEffect(() => {
                       id="floatingInput1"
                       placeholder="To"
                       value={maxPrice}
-                      onChange={(e)=>{setMaxPrice(e.target.value)}}
+                      onChange={(e) => {
+                        setMaxPrice(e.target.value);
+                      }}
                     />
                     <label htmlFor="floatingInput1">To</label>
                   </div>
@@ -178,93 +194,108 @@ useEffect(() => {
                 <h5 className="sub-title">Colors</h5>
                 <div>
                   <ul className="d-flex flex-wrap gap-10 colors">
-                    {
-                      colors.map((item,index)=>{
-                        return <Color key={index} colorName={item} setColor={setColor}/>
-                      })
-                    }
-                    </ul>
+                    {colors.map((item, index) => {
+                      return (
+                        <Color
+                          key={index}
+                          colorName={item}
+                          setColor={setColor}
+                        />
+                      );
+                    })}
+                  </ul>
                 </div>
 
-                    <h5 className="sub-title">Brands</h5>
-                  <div className="filter-card mb-3">      
-              
-                <div className="product-tags d-flex flex-wrap align-items-center gap-10">
-                  {
-                    brands?.map((item,index)=>{
-                      return <span key={index} 
-                      className={`badge bg-light text-secondary rounded-3 py-2 px-3 cursor-pointer ${
-                        brand === item ? 'bg-dark text-white' : ''
-                      }`}
-                       
-                      onClick={
-                        (e)=>{
-                          e.preventDefault();
-                          setBrand(item);
-                      }}
-                      >{item}
-                                                {brand === item && (
+                <h5 className="sub-title">Brands</h5>
+                <div className="filter-card mb-3">
+                  <div className="product-tags d-flex flex-wrap align-items-center gap-10">
+                    {brands?.map((item, index) => {
+                      return (
+                        <span
+                          key={index}
+                          className={`badge bg-light text-secondary rounded-3 py-2 px-3 cursor-pointer ${
+                            brand === item ? "bg-dark text-white" : ""
+                          }`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setBrand(item);
+                          }}
+                        >
+                          {item}
+                          {brand === item && (
                             <span
                               className="top-0 right-0 px-2 py-1 text-sm cursor-pointer text-white rounded-full "
                               onClick={(e) => {
                                 e.stopPropagation(); // Prevent triggering the parent onClick
-                                setBrand('');
+                                setBrand("");
                               }}
                             >
                               &times;
                             </span>
                           )}
-                      </span>
-                    }
-                    )
-                  }
-              </div>
-            </div>
-            <button className="btn button w-100" 
-            onClick={()=>{          
-               dispatch(getAllProducts({brand,category,tag,minPrice,maxPrice,sort,page,limit}));  
-            } }
-            >Filter</button>
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+                <button
+                  className="btn button w-100"
+                  onClick={() => {
+                    dispatch(
+                      getAllProducts({
+                        brand,
+                        category,
+                        tag,
+                        minPrice,
+                        maxPrice,
+                        sort,
+                        page,
+                        limit,
+                      })
+                    );
+                  }}
+                >
+                  Filter
+                </button>
               </div>
             </div>
             <div className="filter-card mb-3">
               <h3 className="filter-title">Product Tags</h3>
               <div>
                 <div className="product-tags d-flex flex-wrap align-items-center gap-10">
-                  {
-                    tags.map((item,index)=>{
-                      return <span key={index} 
-                      className={`badge bg-light text-secondary rounded-3 py-2 px-3 cursor-pointer ${
-                        tag === item ? 'bg-dark text-white' : ''
-                      }`}
-
-                      onClick={
-                        ()=>{
+                  {tags.map((item, index) => {
+                    return (
+                      <span
+                        key={index}
+                        className={`badge bg-light text-secondary rounded-3 py-2 px-3 cursor-pointer ${
+                          tag === item ? "bg-dark text-white" : ""
+                        }`}
+                        onClick={() => {
                           setTag(item);
-                      }}
-                      >{item}
-                      {tag === item && (
-                            <span
-                              className="px-2 py-1 text-sm cursor-pointer text-white rounded-full "
-                              onClick={(e) => {
-                                e.stopPropagation(); // Prevent triggering the parent onClick
-                                setTag('');
-                              }}
-                            >
-                              &times;
-                            </span>
-                          )}
+                        }}
+                      >
+                        {item}
+                        {tag === item && (
+                          <span
+                            className="px-2 py-1 text-sm cursor-pointer text-white rounded-full "
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent triggering the parent onClick
+                              setTag("");
+                            }}
+                          >
+                            &times;
+                          </span>
+                        )}
                       </span>
-                    }
-                    )
-                  }
+                    );
+                  })}
                 </div>
               </div>
             </div>
             <div className="filter-card mb-3">
               <h3 className="filter-title">Random Product</h3>
               <div>
-                <div className="random-products mb-3 d-flex" >
+                <div className="random-products mb-3 d-flex">
                   <div className="w-50">
                     <img
                       src="images/watch.jpg"
@@ -313,7 +344,33 @@ useEffect(() => {
           </div>
           <div className="col-9">
             <div className="filter-sort-grid mb-4">
-              <div className="d-flex justify-content-between align-items-center">
+              <div className="w-full">
+                <div className="relative">
+                  <input
+                    type="text"
+                    className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pr-12 pl-2 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                    placeholder="Germany..."
+                  />
+                  <button
+                    className="absolute right-1 top-1 rounded bg-slate-800 p-1.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    type="button"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      className="w-4 h-4"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div className="d-flex justify-content-between align-items-center mt-2">
                 <div className="d-flex align-items-center gap-10">
                   <p className="mb-0 d-block" style={{ width: "100px" }}>
                     Sort By:
@@ -328,8 +385,8 @@ useEffect(() => {
                     }}
                     value={sort}
                   >
-                    {/* <option value="manual">Featured</option> */}
-                    {/* <option value="best-selling">Best selling</option> */}
+                    
+                  
                     <option value="title">Alphabetically, A-Z</option>
                     <option value="-title">
                       Alphabetically, Z-A
@@ -386,27 +443,22 @@ useEffect(() => {
             </div>
             <div className="products-list pb-5">
               <div className="d-flex gap-10 flex-wrap">
-                {productState.map((item,index)=>{
-                  
-                return(<ProductCard grid={grid} key={index} product={item} />)
-})}
- 
+                {productState.map((item, index) => {
+                  return <ProductCard grid={grid} key={index} product={item} />;
+                })}
               </div>
-             
             </div>
             <ResponsivePagination
-  current={page}
-  // total={ limit ? Math.ceil(productState?.length * limit ) : productState?.length} // Calculate the total pages
-total={total}
-onPageChange={(newPage) => setPage(newPage)}
-/>
-
+              current={page}
+              // total={ limit ? Math.ceil(productState?.length * limit ) : productState?.length} // Calculate the total pages
+              total={total}
+              onPageChange={(newPage) => setPage(newPage)}
+            />
           </div>
         </div>
       </Container>
+    </>
+  );
+};
 
-</>
-  )
-}
-
-export default OurStore
+export default OurStore;

@@ -1,72 +1,73 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom';
-import Container from '../components/Container';
-import { services } from '../utils/Data';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Container from "../components/Container";
+import { services } from "../utils/Data";
 import Marquee from "react-easy-marquee";
-import BlogCard from '../components/BlogCard';
-import ProductCard from '../components/ProductCard';
-import SpecialProduct from '../components/SpecialProduct';
+import BlogCard from "../components/BlogCard";
+import ProductCard from "../components/ProductCard";
+import SpecialProduct from "../components/SpecialProduct";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-import {useDispatch, useSelector} from 'react-redux';
-import { getBlogs } from '../features/blogs/blogSlice'
-import { getAllProducts } from '../features/products/productSlice';
+import { Carousel } from "react-responsive-carousel";
+import { useDispatch, useSelector } from "react-redux";
+import { getBlogs } from "../features/blogs/blogSlice";
+import { getAllProducts } from "../features/products/productSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const getAllBlogs = ()=>{
+  const getAllBlogs = () => {
     dispatch(getBlogs());
-  }
+  };
 
-
-  const getProducts = ()=>{
+  const getProducts = () => {
     dispatch(getAllProducts());
-  }
-useEffect(()=>{getProducts();getAllBlogs()},[])
-const blogsState = useSelector(state=>state?.blog?.blogs);
-const productState = useSelector(state=>state?.product?.products);
+  };
+  useEffect(() => {
+    getProducts();
+    getAllBlogs();
+  }, []);
+  const blogsState = useSelector((state) => state?.blog?.blogs);
+  const productState = useSelector((state) => state?.product?.products);
 
   return (
     <>
-    <Container class1="home-wrapper-1 py-5">
-      <div className="row">
+      <Container class1="home-wrapper-1 py-5">
+        <div className="row">
           <div className="col-6">
-          <Carousel
-          showIndicators={false}
-          showStatus={false}
-          showThumbs={false}
-          autoPlay={true}
-          interval={3000}
-          infiniteLoop={true}
-          >           
-             <div className="main-banner position-relative ">
-              <img
-                src="images/main-banner.jpg"
-                className="img-fluid rounded-3"
-                alt="main banner"
-              />
-              <div className="main-banner-content position-absolute">
-                <h4>SUPERCHARGED FOR PROS.</h4>
-                <h5>iPad S13+ Pro.</h5>
-                <p>From $999.00 or $41.62/mo.</p>
-                <Link className="button">BUY NOW</Link>
+            <Carousel
+              showIndicators={false}
+              showStatus={false}
+              showThumbs={false}
+              autoPlay={true}
+              interval={3000}
+              infiniteLoop={true}
+            >
+              <div className="main-banner position-relative ">
+                <img
+                  src="images/main-banner.jpg"
+                  className="img-fluid rounded-3"
+                  alt="main banner"
+                />
+                <div className="main-banner-content position-absolute">
+                  <h4>SUPERCHARGED FOR PROS.</h4>
+                  <h5>iPad S13+ Pro.</h5>
+                  <p>From $999.00 or $41.62/mo.</p>
+                  <Link className="button">BUY NOW</Link>
+                </div>
               </div>
-            </div>
-            <div className="main-banner position-relative ">
-              <img
-                src="images/main-banner-1.jpg"
-                className="img-fluid rounded-3"
-                alt="main banner"
-              />
-              <div className="main-banner-content position-absolute">
-                <h4>SUPERCHARGED FOR PROS.</h4>
-                <h5>iPad S13+ Pro.</h5>
-                <p>From $999.00 or $41.62/mo.</p>
-                <Link className="button">BUY NOW</Link>
+              <div className="main-banner position-relative ">
+                <img
+                  src="images/main-banner-1.jpg"
+                  className="img-fluid rounded-3"
+                  alt="main banner"
+                />
+                <div className="main-banner-content position-absolute">
+                  <h4>SUPERCHARGED FOR PROS.</h4>
+                  <h5>iPad S13+ Pro.</h5>
+                  <p>From $999.00 or $41.62/mo.</p>
+                  <Link className="button">BUY NOW</Link>
+                </div>
               </div>
-            </div>
             </Carousel>
-
           </div>
           <div className="col-6">
             <div className="d-flex flex-wrap gap-10 justify-content-between align-items-center">
@@ -129,27 +130,27 @@ const productState = useSelector(state=>state?.product?.products);
             </div>
           </div>
         </div>
-</Container>
- <Container class1="home-wrapper-2 py-5">
- <div className="row">
-   <div className="col-12">
-     <div className="servies d-flex align-items-center justify-content-between">
-       {services?.map((i, j) => {
-         return (
-           <div className="d-flex align-items-center gap-15" key={j}>
-             <img src={i.image} alt={i.image} />
-             <div>
-               <h6>{i.title}</h6>
-               <p className="mb-0">{i.tagline}</p>
-             </div>
-           </div>
-         );
-       })}
-     </div>
-   </div>
- </div>
-</Container>
-<Container class1="home-wrapper-2 py-5">
+      </Container>
+      <Container class1="home-wrapper-2 py-5">
+        <div className="row">
+          <div className="col-12">
+            <div className="servies d-flex align-items-center justify-content-between">
+              {services?.map((i, j) => {
+                return (
+                  <div className="d-flex align-items-center gap-15" key={j}>
+                    <img src={i.image} alt={i.image} />
+                    <div>
+                      <h6>{i.title}</h6>
+                      <p className="mb-0">{i.tagline}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </Container>
+      <Container class1="home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12">
             <div className="categories d-flex justify-content-between flex-wrap align-items-center">
@@ -218,15 +219,11 @@ const productState = useSelector(state=>state?.product?.products);
           <div className="col-12">
             <h3 className="section-heading">Featured Collection</h3>
           </div>
-          {productState.slice(0,8).map((product)=>{
-            if(product.tags === "featured"){
-            return <ProductCard key={product._id} product={product} />
-            }
-              else return <></>
-            
+          {productState.slice(0, 8).map((product) => {
+            if (product.tags === "featured") {
+              return <ProductCard key={product._id} product={product} />;
+            } else return <></>;
           })}
-          
-
         </div>
       </Container>
       <Container class1="famous-wrapper py-5 home-wrapper-2">
@@ -295,21 +292,18 @@ const productState = useSelector(state=>state?.product?.products);
       </Container>
       <Container class1="special-wrapper py-5 home-wrapper-2">
         <div className="row">
-          <div className="col-12">
+          <div className="">
             <h3 className="section-heading">Special Products</h3>
           </div>
         </div>
-        <div className="row">
-        {
-          productState?.slice(0,4).map((product)=>{
-            if(product.tags === "special"){
-              return <SpecialProduct product={product}  />
-            }else{
-              return <></>
+        <div className="w-full">
+          {productState?.slice(0, 4).map((product) => {
+            if (product.tags === "special") {
+              return <SpecialProduct product={product} />;
+            } else {
+              return <></>;
             }
-})
-        }
-          
+          })}
         </div>
       </Container>
       <Container class1="marque-wrapper home-wrapper-2 py-5">
@@ -342,7 +336,6 @@ const productState = useSelector(state=>state?.product?.products);
                   <img src="images/brand-08.png" alt="brand" />
                 </div>
               </Marquee>
- 
             </div>
           </div>
         </div>
@@ -354,17 +347,15 @@ const productState = useSelector(state=>state?.product?.products);
           </div>
         </div>
         <div className="row">
-          {blogsState.slice(0,4).map((blog)=>(
-          <div className="col-3" key={blog._id}>
-          <BlogCard blog={blog}  />
-        </div>
+          {blogsState.slice(0, 4).map((blog) => (
+            <div className="col-3" key={blog._id}>
+              <BlogCard blog={blog} />
+            </div>
           ))}
-
-
         </div>
       </Container>
-</>
-  )
-}
+    </>
+  );
+};
 
-export default Home
+export default Home;

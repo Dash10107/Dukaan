@@ -7,18 +7,18 @@ const SpecialProduct = ({product}) => {
 
   return (
     <>
-      <div className="col-6 mb-3 " >
+      <div className="mb-3 w-full" >
         <div className="special-product-card cursor-pointer" onClick={()=>{
 
           navigate(`/product/${product._id}`);
           window.location.reload();
           window.scrollTo(0,0);
           }}>
-          <div className="d-flex justify-content-between">
-            <div>
+          <div className="flex w-full">
+            <div className="w-[40%]">
               <img src={product?.images.length > 0 ? product?.images[0].url :  "/images/watch.jpg"} className="img-fluid" width={"80%"} height={"90%"} alt="watch" />
             </div>
-            <div className="special-product-content">
+            <div className="special-product-content w-[60%]">
               <h5 className="brand">{product?.brand}</h5>
               <h6 className="title">
                 {product?.title}

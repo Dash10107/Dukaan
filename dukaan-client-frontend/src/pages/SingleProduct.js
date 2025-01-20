@@ -24,7 +24,6 @@ const reviewSchema = yup.object().shape({
 })
 
 
-
 const SingleProduct = () => {
     const navigate= useNavigate();
     const {id} = useParams();

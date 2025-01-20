@@ -86,11 +86,15 @@ const search = async (req, res) => {
   }
 };
 
-// Recommend similar products
- const recommend = async (req, res) => {
-    const { vector } = req.query; // Vector should be passed as a stringified array
-    try {
-      const body = {
+// Recommend similar products by name or vector
+const recommend = async (req, res) => {
+  const { name, vector } = req.query; // 'name' is the product name, 'vector' is optional
+  try {
+    let body;
+
+    if (vector) {
+      // Recommend using vector similarity
+      body = {
         query: {
           script_score: {
             query: { match_all: {} },
@@ -102,19 +106,39 @@ const search = async (req, res) => {
         },
         size: 10
       };
-
-      const { hits } = await client.search({
-        index: 'e-commerce',
-        body
-      });
-  
-      const recommendations = hits.hits.map(hit => ({ id: hit._id, ...hit._source }));
-      res.status(200).json(recommendations);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    } else if (name) {
+      // Recommend using product name similarity
+      body = {
+        query: {
+          more_like_this: {
+            fields: ["title", "description"],
+            like: name,
+            min_term_freq: 1,
+            max_query_terms: 12
+          }
+        },
+        size: 10
+      };
+    } else {
+      // Default fallback: Recommend top popular products
+      body = {
+        query: { match_all: {} },
+        size: 10
+      };
     }
-  };
-  
+
+    const { hits } = await client.search({
+      index: 'e-commerce',
+      body
+    });
+
+    const recommendations = hits.hits.map(hit => ({ id: hit._id, ...hit._source }));
+    res.status(200).json(recommendations);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 
   const updateProduct = asyncHandler(async (req, res) => {
     const {id} = req.params;
