@@ -129,7 +129,7 @@ export default function ProductGrid() {
     <div className="container mx-auto px-4 py-8">
       {/* Search, Sort and Filters */}
       <div className="mb-8 space-y-4 md:flex md:items-center md:space-x-4 md:space-y-0">
-        <div className="relative flex-1">
+        <div className="relative flex-2 w-[50%]">
           <input
             type="text"
             placeholder="Search products..."
@@ -140,7 +140,7 @@ export default function ProductGrid() {
         </div>
         
         <select
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 md:w-48"
+          className="w-full rounded-lg border border-gray-300 px-4 py-2 md:w-48 flex-1"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
@@ -152,7 +152,7 @@ export default function ProductGrid() {
         </select>
 
         <select
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 md:w-48"
+          className="w-full rounded-lg border border-gray-300 px-4 py-2 md:w-48 flex-1"
           value={selectedBrand}
           onChange={(e) => setSelectedBrand(e.target.value)}
         >
@@ -164,7 +164,7 @@ export default function ProductGrid() {
         </select>
 
         <select
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 md:w-48"
+          className="w-full rounded-lg border border-gray-300 px-4 py-2 md:w-48 flex-1"
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
         >
@@ -461,7 +461,7 @@ export default function ProductGrid() {
                 className="hover:text-white" 
                   disabled={product.quantity === 0}
                   >
-                  Add to Cart
+                  View Product
                 </button>
                   </Link>
                 </div>

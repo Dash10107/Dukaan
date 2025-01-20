@@ -48,7 +48,7 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8 dark:bg-gray-800">
+    <div className="min-h-screen bg-gray-50 p-8 ">
         <div className='px-2 py-6 text-3xl font-semibold'>
           <h1>
             Dashboard
@@ -57,17 +57,17 @@ export default function Dashboard() {
       {/* Stats Grid */}
       <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="rounded-xl border bg-white p-6 shadow-sm transition-all hover:shadow-md dark:bg-gray-900">
+          <div key={stat.label} className="rounded-xl border bg-white p-6 shadow-sm transition-all hover:shadow-md ">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</p>
+                <p className="text-sm text-gray-600 ">{stat.label}</p>
                 <h3 className="mt-1 text-2xl font-semibold">{stat.value}</h3>
               </div>
               <div className={`rounded-full p-3 ${
-                stat.trend === 'up' ? 'bg-green-100 dark:bg-green-900' : 'bg-red-100 dark:bg-red-900'
+                stat.trend === 'up' ? 'bg-green-100' : 'bg-red-100 '
               }`}>
                 <stat.icon className={`h-6 w-6 ${
-                  stat.trend === 'up' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                  stat.trend === 'up' ? 'text-green-600 ' : 'text-red-600'
                 }`} />
               </div>
             </div>
@@ -80,7 +80,7 @@ export default function Dashboard() {
               <span className={stat.trend === 'up' ? 'text-green-500' : 'text-red-500'}>
                 {stat.change}
               </span>
-              <span className="text-gray-600 dark:text-gray-400">vs last month</span>
+              <span className="text-gray-600 ">vs last month</span>
             </div>
           </div>
         ))}
@@ -89,7 +89,7 @@ export default function Dashboard() {
       {/* Main Content Grid */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Revenue Chart */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm dark:bg-gray-900">
+        <div className="rounded-xl border bg-white p-6 shadow-sm ">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-semibold">Revenue Overview</h3>
             <select className="rounded-md border bg-transparent px-2 py-1 text-sm">
@@ -112,7 +112,7 @@ export default function Dashboard() {
         </div>
 
         {/* Market Performance */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm dark:bg-gray-900">
+        <div className="rounded-xl border bg-white p-6 shadow-sm ">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-semibold">Market Performance</h3>
             <Globe className="h-5 w-5 text-gray-600" />
@@ -140,7 +140,7 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Products */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm dark:bg-gray-900 lg:col-span-2">
+        <div className="rounded-xl border bg-white p-6 shadow-sm  lg:col-span-2">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-lg font-semibold">Recent Products</h3>
             <button className="text-sm text-blue-500 hover:text-blue-600">View All</button>

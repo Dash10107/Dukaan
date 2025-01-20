@@ -3,8 +3,8 @@ import React from 'react';
 export function DocsLayout({ children }) {
   return (
     <div className="docs-layout min-h-screen">
-      <aside className="sidebar mt-10">
-      <aside className="hidden lg:block w-72 shrink-0 border-r">
+      <aside className="sidebar mt-10 ">
+      <aside className="hidden lg:block w-72 shrink-0 border-r ">
           <div className="font-bold mb-4 text-xl">E-Commerce API Docs</div>
           <nav className="space-y-4">
             <div className="space-y-2">

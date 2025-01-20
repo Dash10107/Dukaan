@@ -14,7 +14,7 @@ export default function Navbar() {
   const userName = "John Doe"; // This would come from your auth context
 
   return (
-    <nav className="fixed top-0 right-0 left-0 z-40 flex h-16 items-center justify-between border-b bg-white px-6 shadow-sm backdrop-blur-sm dark:bg-gray-900/95 ">
+    <nav className="fixed top-0 right-0 left-0 z-40 flex h-16 items-center justify-between border-b bg-white px-6 shadow-sm backdrop-blur-sm  ">
       <div className="flex items-center">
         <div className="">
           <svg

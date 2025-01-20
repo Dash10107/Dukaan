@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import productService from "./productService";
 
+// Fetch all products
 export const getProducts = createAsyncThunk(
   "product/get-products",
   async (thunkAPI) => {
@@ -11,6 +12,8 @@ export const getProducts = createAsyncThunk(
     }
   }
 );
+
+// Create a product
 export const createProducts = createAsyncThunk(
   "product/create-products",
   async (productData, thunkAPI) => {
@@ -22,26 +25,41 @@ export const createProducts = createAsyncThunk(
   }
 );
 
-export  const getAProducts = createAsyncThunk(
+// Fetch a single product by ID
+export const getAProducts = createAsyncThunk(
   "product/get-single",
-  async(productId,thunkAPI)=>{
-      try {
-          return await productService.getAProduct(productId);
-      } catch (error) {
-          return thunkAPI.rejectWithValue(error)
-      }
+  async (productId, thunkAPI) => {
+    try {
+      return await productService.getAProduct(productId);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-)
+);
 
-export const resetState = createAction("Reset_all");
 
-const initialState = {
+export const bulkUploadProducts = createAsyncThunk("product/bulk-upload", async (formData, thunkAPI) => {
+  try {
+      return await productService.bulkUploadProducts(formData)
+  } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+  }
+  })
+
+  export const resetState = createAction("Reset_all")
+
+  const initialState = {
   products: [],
+  singleProduct: null,
   isError: false,
   isLoading: false,
   isSuccess: false,
   message: "",
-};
+  createdProduct: null,
+  bulkUploadStatus: null,
+  }
+
+
 export const productSlice = createSlice({
   name: "products",
   initialState,
@@ -61,7 +79,7 @@ export const productSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.message = action.error;
+        state.message = action.error.message;
       })
       .addCase(createProducts.pending, (state) => {
         state.isLoading = true;
@@ -76,9 +94,42 @@ export const productSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.message = action.error;
+        state.message = action.error.message;
       })
-      .addCase(resetState, () => initialState);
+      .addCase(getAProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.singleProduct = action.payload;
+      })
+      .addCase(getAProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error.message;
+      })
+      .addCase(bulkUploadProducts.pending, (state) => {
+        state.isLoading = true
+        state.bulkUploadStatus = null
+    })
+    .addCase(bulkUploadProducts.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isError = false
+        state.isSuccess = true
+        state.bulkUploadStatus = action.payload
+    })
+    .addCase(bulkUploadProducts.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+        state.message = action.error.message
+        state.bulkUploadStatus = null
+    })
+    .addCase(resetState, () => initialState)
   },
 });
+
 export default productSlice.reducer;
