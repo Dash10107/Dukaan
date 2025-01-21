@@ -1,0 +1,51 @@
+const express = require("express");
+const {
+  createProduct,
+  getaProduct,
+   getAllProduct,
+  updateProduct,
+  deleteProduct,
+  addToWishlist,
+  rating,
+  uploadImages,
+  getProductsBySellerId,
+  getSellerStats,
+  bulkUploadProducts,
+  search,
+  recommend,
+  getProductsForSeller
+} = require("../controller/productCtrl");
+const { isAdmin, authMiddleware, isSeller,} = require("../middlewares/authMiddleware");
+const { productImgResize, uploadPhoto, upload } = require("../middlewares/uploadImage");
+const router = express.Router();
+
+router.post("/", authMiddleware, isSeller || isAdmin,   createProduct);
+router.put(
+  "/upload/:id",
+  authMiddleware,
+ isSeller || isAdmin,
+  uploadPhoto.array("images", 2),
+  productImgResize,
+  uploadImages
+);
+router.get("/:id", getaProduct);
+router.put("/wishlist", authMiddleware, addToWishlist);
+router.put("/rating", authMiddleware, rating);
+router.get("/seller/product", authMiddleware, isSeller, getProductsForSeller)
+
+
+router.put("/:id",authMiddleware,isSeller,updateProduct);
+router.delete("/:id",authMiddleware, isSeller,  deleteProduct);
+
+ router.get("/", getAllProduct);
+ 
+ router.get("/seller/:id", authMiddleware, getProductsBySellerId);
+ router.get("/seller/stats", authMiddleware, isSeller, getSellerStats);
+router.post("/file/bulk", authMiddleware, isSeller, upload, bulkUploadProducts);
+router.post('/search/elastic',search)
+router.get('/recommend',recommend)
+
+module.exports = router;
+
+
+
