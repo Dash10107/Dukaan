@@ -25,12 +25,11 @@ const handleIncomingMessage = async (req, res) => {
     const userPhoneNumber = From.replace('whatsapp:+91', '');
     
     let user = await User.findOne({ mobile: userPhoneNumber.toString() });
-    if (!user) {``
+    if (!user) {
       console.log(`New user detected: ${userPhoneNumber}`);
       
-      await sendWhatsAppMessage(From, `Please create user from your phone no!  ${userPhoneNumber} ${typeof userPhoneNumber}, ${user},
-       ${await User.findOne({ mobile: userPhoneNumber.toString() })} `);
-      return res.status(200).send('OK');
+      await sendWhatsAppMessage(From, `Please create user from your phone no!  ${userPhoneNumber} , ${user}, `);
+      return res.status(500).send('FAIL');
     }
 
     let responseMessage = '';
