@@ -1,7 +1,5 @@
 
 
-![ONDC Logo](https://ondc.org/assets/theme/images/ondc_registered_logo.svg?v=647f8c4bce)
-
 ## 🚀 Project Overview
 
 
@@ -32,7 +30,6 @@ YOUTUBE VIDEO LINK : https://youtu.be/TxmLEja8g1w
    - Comprehensive endpoints for searching, sorting, and filtering.
    - Decreased API setup time by **70%** with pre-configured JSON for Postman.
 
-   ![alt text](image.png)
 
 5. **Performance and Scalability**
    - Transitioned from NxN to N+N transaction model, reducing computational overhead by **50%**.
