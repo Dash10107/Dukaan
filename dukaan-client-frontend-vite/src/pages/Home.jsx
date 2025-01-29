@@ -12,6 +12,7 @@ import ProductCard from "../components/ProductCard"
 import SpecialProduct from "../components/SpecialProduct"
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"
+import WhatsAppShopping from "../components/WhatsappShopping"
 
 const fadeInUp = {
   initial: { y: 20, opacity: 0 },
@@ -228,6 +229,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <WhatsAppShopping/>
     </div>
   )
 }

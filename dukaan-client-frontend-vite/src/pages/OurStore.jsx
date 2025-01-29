@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { getAllProducts, elasticSearchProducts } from "../features/products/productSlice"
 import ResponsivePagination from "react-responsive-pagination"
 import "react-responsive-pagination/themes/classic.css"
+import AudioSearch from "../components/AudioSearch"
+import { motion } from "framer-motion"
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4)
@@ -39,7 +41,7 @@ const OurStore = () => {
   }
   useEffect(() => {
     getProducts()
-  }, [])
+  }, [dispatch]) // Added dispatch to dependencies
   const productState = useSelector((state) => state?.product)
   const { isLoading, isSearching } = productState
 
@@ -103,6 +105,15 @@ const OurStore = () => {
     }, 500)
 
     setSearchTimeout(timeoutId)
+  }
+
+  const handleAudioSearch = (transcribedText) => {
+    setSearchQuery(transcribedText)
+    dispatch(
+      elasticSearchProducts({
+        query: transcribedText,
+      }),
+    )
   }
 
   useEffect(() => {
@@ -285,36 +296,45 @@ const OurStore = () => {
 
           <div className="md:w-3/4">
             <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-              <div className="relative">
+              <div className="relative flex items-center">
                 <input
                   type="text"
-                  className="w-full bg-gray-100 text-sm border-none rounded-md pr-10 pl-3 py-2 focus:ring-2 focus:ring-primary"
+                  className="w-full bg-gray-100 text-sm border-none rounded-md pr-20 pl-3 py-2 focus:ring-2 focus:ring-primary"
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={handleSearch}
                 />
-                <button
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  type="button"
-                  disabled={isSearching}
-                >
-                  {isSearching ? (
-                    <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path
-                        fillRule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  )}
-                </button>
+                <div className="absolute right-2 flex items-center space-x-2">
+                  <button className="text-gray-400 hover:text-gray-600" type="button" disabled={isSearching}>
+                    {isSearching ? (
+                      <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    )}
+                  </button>
+                  <AudioSearch onSearch={handleAudioSearch} />
+                </div>
               </div>
               {isError && <div className="text-red-500 text-sm mt-1">{message}</div>}
             </div>
 
-            <div className="products-list pb-5">
+            <motion.div
+              className="products-list pb-5"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
               {isLoading ? (
                 <div className="flex justify-center items-center min-h-[200px]">
                   <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
@@ -331,7 +351,7 @@ const OurStore = () => {
                   <p className="text-gray-500">No products found</p>
                 </div>
               )}
-            </div>
+            </motion.div>
             <div className="mt-6">
               <ResponsivePagination
                 current={page}

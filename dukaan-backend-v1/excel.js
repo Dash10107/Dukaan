@@ -13,90 +13,37 @@ const headers = [
   'quantity', 
   'color', 
   'tags', 
+  'images' // Added the images field
 ];
 
-// Create sample data
+// Create new sample data with image details
 const sampleData = [
   [
-    'Laptop_Pro_15 ', 
-    'High-performance laptop with a 15-inch display, 1TB SSD, and 16GB RAM.', 
-    1499.99, 
-    'Computers', 
-    'CompTech', 
-    30, 
-    'Silver, Space Gray', 
-    'laptop', 
-  ],
-  [
-    'Wireless_Headphones', 
-    'Noise-cancelling over-ear headphones with 40-hour battery life.', 
-    249.99, 
+    'Noise_Cancelling_Headset', 
+    'Professional-grade headset with active noise cancellation and crystal-clear audio.', 
+    299.99, 
     'Audio', 
-    'SoundMax', 
-    75, 
-    'Black, White', 
-    'headphones', 
+    'SoundPro', 
+    80, 
+    'Gray, Black', 
+    'headset, noise-cancelling', 
+    JSON.stringify([
+      { public_id: 'headset_1', url: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQAktvXSAeZgROoxcNaez2-YbJOC-4k6ukqbHkX29pMidBQXmqALxQYJOiIvsamMvIAW8hhAec1FqoTAYuZNaal9aX8ghd6e3y8bCBmLTrG' }
+    ])
   ],
   [
-    'OLED_Smart_TV_65-inch', 
-    '65-inch OLED display with 4K resolution and Dolby Vision support.', 
-    1899.99, 
+    'UltraHD_Projector_4K', 
+    'Portable 4K UHD projector with HDR support and 3000 lumens brightness.', 
+    999.99, 
     'Home Entertainment', 
-    'VisionTech', 
-    15, 
-    'Black', 
-    'tv, oled', 
+    'VisionLight', 
+    20, 
+    'White', 
+    'projector, 4k', 
+    JSON.stringify([
+      { public_id: 'projector_4k_1', url: 'https://crossbeats.com/cdn/shop/files/3_1f5a753e-485e-4201-9b2a-2207745e5a67.png?v=1735959361&width=1400' }
+    ])
   ],
-  [
-    'Sports_Jacket', 
-    'Lightweight, breathable jacket for outdoor activities. Available in multiple sizes.', 
-    89.99, 
-    'Apparel', 
-    'ActiveWear', 
-    250, 
-    'Blue, Green, Black', 
-    'jacket, sports', 
-  ],
-  [
-    'Insulated_Water_Bottle', 
-    'Keeps beverages cold for 24 hours and hot for 12 hours. Made of stainless steel.', 
-    24.99, 
-    'Kitchen', 
-    'EcoHydrate', 
-    200, 
-    'Blue, White, Gray', 
-    'bottle, stainless steel', 
-  ],
-  [
-    'Mechanical_Keyboard', 
-    'RGB backlit keyboard with customizable keys and tactile switches.', 
-    99.99, 
-    'Accessories', 
-    'KeyMaster', 
-    60, 
-    'Black, White', 
-    'keyboard, gaming', 
-  ],
-  [
-    'Slim Leather_Cardholder', 
-    'Compact cardholder with RFID protection and premium leather finish.', 
-    34.99, 
-    'Accessories', 
-    'UrbanStyle', 
-    150, 
-    'Tan, Black', 
-    'cardholder', 
-  ],
-  [
-    'Portable_Charger_20000mAh', 
-    'Fast-charging power bank with dual USB ports and LED indicator.', 
-    49.99, 
-    'Electronics', 
-    'PowerPlus', 
-    100, 
-    'Black, White', 
-    'charger, power bank', 
-  ]
 ];
 
 // Combine headers and sample data
@@ -109,6 +56,6 @@ const ws = XLSX.utils.aoa_to_sheet(sheetData);
 XLSX.utils.book_append_sheet(workbook, ws, 'Products');
 
 // Write the workbook to a file
-XLSX.writeFile(workbook, 'bulk_upload_template.xlsx');
+XLSX.writeFile(workbook, 'bulk_upload_template_with_images.xlsx');
 
-console.log('Excel template generated: bulk_upload_template.xlsx');
+console.log('Excel template with updated images generated: bulk_upload_template_with_images.xlsx');

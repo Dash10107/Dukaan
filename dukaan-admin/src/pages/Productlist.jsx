@@ -25,6 +25,7 @@ const schema = yup.object().shape({
   tags: yup.string().required("Tag is Required"),
   color: yup.array().min(1, "Pick at least one color").required("Color is Required"),
   quantity: yup.number().required("Quantity is Required"),
+  images: yup.array()
 })
 
 export default function ProductGrid() {
@@ -82,6 +83,8 @@ export default function ProductGrid() {
     public_id: i.public_id,
     url: i.url,
   }))
+
+  console.log("img", img)
 
   const formik = useFormik({
     initialValues: {
@@ -423,7 +426,9 @@ export default function ProductGrid() {
                         </div>
                         <div className="mt-4 grid grid-cols-4 gap-4">
                           {imgState?.map((image, index) => (
+                            
                             <div key={index} className="relative">
+                            {console.log(imgState)}
                               <img
                                 src={image.url || "/placeholder.svg"}
                                 alt=""
@@ -528,7 +533,7 @@ export default function ProductGrid() {
           >
             <div className="relative aspect-square">
               <img
-                src={product.images?.[0] || "/placeholder.svg?height=200&width=200"}
+                src={product.images?.[0].url || "/placeholder.svg?height=200&width=200"}
                 alt={product.title}
                 className="h-full w-full object-cover"
               />

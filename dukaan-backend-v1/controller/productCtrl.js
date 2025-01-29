@@ -430,18 +430,18 @@ const recommend = async (req, res) => {
   
     try {
       // Read the uploaded file
-      const tempFilePath = path.join('/tmp', 'bulk_upload_template.xlsx');
+      // const tempFilePath = path.join('/tmp', 'bulk_upload_template.xlsx');
 
-      // Copy the file to a writable location before reading
-      fs.copyFileSync(filePath, tempFilePath);
+      // // Copy the file to a writable location before reading
+      // fs.copyFileSync(filePath, tempFilePath);
       
       // Read the workbook from the writable location
-      const workbook = XLSX.readFile(tempFilePath);
+      const workbook = XLSX.readFile(filePath);
       const sheetName = workbook.SheetNames[0];
       const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
       
       // Cleanup: Remove the temporary file if needed
-      fs.unlinkSync(tempFilePath);
+      // fs.unlinkSync(tempFilePath);
       // console.log(sheetData);
       // Validate and transform data
       const products = sheetData.map((row) => ({
@@ -455,6 +455,7 @@ const recommend = async (req, res) => {
         color: row.color.split(',').map((color) => color.trim()),
         tags: row.tags,
         seller: req.user._id, 
+        images: JSON.parse(row.images),
       }));
   
       // Save products to the database
