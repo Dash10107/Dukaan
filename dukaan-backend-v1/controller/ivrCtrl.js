@@ -22,7 +22,7 @@ const handleIncomingMessage = async (req, res) => {
     }
 
     console.log('From:', From, 'Body:', Body);
-    const userPhoneNumber = From.replace('whatsapp:', '');
+    const userPhoneNumber = From.replace('whatsapp:+91', '');
     
     let user = await User.findOne({ mobile: userPhoneNumber });
     if (!user) {
