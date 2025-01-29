@@ -24,7 +24,12 @@ const cors = require("cors");
 
 dbConnect();
 app.use(morgan("dev"));
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173", ""], // Add allowed domains here
+  credentials: true, // Allow cookies to be sent with requests
+}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
