@@ -1,4 +1,4 @@
-// ivrController.js
+// ivrCtrl.js
 
 const twilio = require('twilio');
 const Product = require('../models/productModel');
@@ -11,16 +11,24 @@ const client = twilio(accountSid, authToken);
 
 const welcomeMessage = "Welcome to our WhatsApp shopping experience! Here are your options:\n1. View Products\n2. Place an Order\n3. Check Order Status\n4. Contact Support";
 
-const handleIncomingMessage = async (body, twiml) => {
+const handleIncomingMessage = async (req, res) => {
   try {
-    const { Body, From } = body;
+     console.log('Incoming message:', req.body);
+     console.log('Incoming message:', req.body.Body)
+    const { Body, From } = req.body;
+    
+    if (!Body || !From) {
+      console.error('Missing Body or From in the request');
+      return res.status(400).send('Invalid request');
+    }
+
     const userPhoneNumber = From.replace('whatsapp:', '');
 
     let user = await User.findOne({ phone: userPhoneNumber });
     if (!user) {
       console.log(`New user detected: ${userPhoneNumber}`);
-      user = await User.create({ phone: userPhoneNumber });
-    }
+     return res.status(200).send('New user detected');
+     }
 
     let responseMessage = '';
 
@@ -45,18 +53,26 @@ const handleIncomingMessage = async (body, twiml) => {
         }
     }
 
+    const twiml = new twilio.twiml.MessagingResponse();
     twiml.message(responseMessage);
+
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
   } catch (error) {
     console.error('Error in handleIncomingMessage:', error);
-    twiml.message("We're sorry, but an error occurred. Please try again later.");
+    res.status(500).send('Internal Server Error');
   }
 };
 
 const startConversation = async (req, res) => {
   const { phoneNumber } = req.body;
+  if (!phoneNumber) {
+    return res.status(400).json({ error: 'Phone number is required' });
+  }
+
   try {
     await client.messages.create({
-      from: 'whatsapp:+14155238886',
+      from: 'whatsapp:+14155238886', // Replace with your Twilio number
       body: welcomeMessage,
       to: `whatsapp:${phoneNumber}`
     });
