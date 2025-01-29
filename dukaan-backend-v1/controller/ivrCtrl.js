@@ -21,10 +21,9 @@ const handleIncomingMessage = async (req, res) => {
       console.error('Missing Body or From in the request');
       return res.status(400).send('Invalid request');
     }
-
+    console.log(From)
     const userPhoneNumber = From.replace('whatsapp:', '');
-
-    let user = await User.findOne({ phone: userPhoneNumber });
+    let user = await User.findOne({ mobile: userPhoneNumber });
     if (!user) {
       console.log(`New user detected: ${userPhoneNumber}`);
      return res.status(200).send('New user detected');
@@ -54,7 +53,7 @@ const handleIncomingMessage = async (req, res) => {
     }
 
     const twiml = new twilio.twiml.MessagingResponse();
-    twiml.message(responseMessage);
+    twiml.message({},responseMessage);
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
