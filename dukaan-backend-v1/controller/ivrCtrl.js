@@ -28,7 +28,8 @@ const handleIncomingMessage = async (req, res) => {
     if (!user) {``
       console.log(`New user detected: ${userPhoneNumber}`);
       
-      await sendWhatsAppMessage(From, `Please create user from your phone no!  ${userPhoneNumber} ${typeof userPhoneNumber}, ${user}`);
+      await sendWhatsAppMessage(From, `Please create user from your phone no!  ${userPhoneNumber} ${typeof userPhoneNumber}, ${user},
+       ${await User.findOne({ mobile: userPhoneNumber.toString() })} `);
       return res.status(200).send('OK');
     }
 
