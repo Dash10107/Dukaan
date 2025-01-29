@@ -12,38 +12,44 @@ const client = twilio(accountSid, authToken);
 const welcomeMessage = "Welcome to our WhatsApp shopping experience! Here are your options:\n1. View Products\n2. Place an Order\n3. Check Order Status\n4. Contact Support";
 
 const handleIncomingMessage = async (body, twiml) => {
-  const { Body, From } = body;
-  const userPhoneNumber = From.replace('whatsapp:', '');
+  try {
+    const { Body, From } = body;
+    const userPhoneNumber = From.replace('whatsapp:', '');
 
-  let user = await User.findOne({ phone: userPhoneNumber });
-  if (!user) {
-    user = await User.create({ phone: userPhoneNumber });
+    let user = await User.findOne({ phone: userPhoneNumber });
+    if (!user) {
+      console.log(`New user detected: ${userPhoneNumber}`);
+      user = await User.create({ phone: userPhoneNumber });
+    }
+
+    let responseMessage = '';
+
+    switch (Body.toLowerCase()) {
+      case '1':
+        responseMessage = await listProducts();
+        break;
+      case '2':
+        responseMessage = "Great! Let's start your order. Please reply with 'order' followed by the product number you'd like to order (e.g., 'order 1').";
+        break;
+      case '3':
+        responseMessage = await checkOrderStatus(user._id);
+        break;
+      case '4':
+        responseMessage = "Our support team will contact you shortly. Thank you for your patience!";
+        break;
+      default:
+        if (Body.toLowerCase().startsWith('order')) {
+          responseMessage = await handleOrder(Body, user._id);
+        } else {
+          responseMessage = welcomeMessage;
+        }
+    }
+
+    twiml.message(responseMessage);
+  } catch (error) {
+    console.error('Error in handleIncomingMessage:', error);
+    twiml.message("We're sorry, but an error occurred. Please try again later.");
   }
-
-  let responseMessage = '';
-
-  switch (Body.toLowerCase()) {
-    case '1':
-      responseMessage = await listProducts();
-      break;
-    case '2':
-      responseMessage = "Great! Let's start your order. Please reply with the product number you'd like to order.";
-      break;
-    case '3':
-      responseMessage = await checkOrderStatus(user._id);
-      break;
-    case '4':
-      responseMessage = "Our support team will contact you shortly. Thank you for your patience!";
-      break;
-    default:
-      if (Body.startsWith('order')) {
-        responseMessage = await handleOrder(Body, user._id);
-      } else {
-        responseMessage = welcomeMessage;
-      }
-  }
-
-  twiml.message(responseMessage);
 };
 
 const startConversation = async (req, res) => {
@@ -61,7 +67,66 @@ const startConversation = async (req, res) => {
   }
 };
 
-// ... (keep the other functions like listProducts, handleOrder, checkOrderStatus)
+const listProducts = async () => {
+  try {
+    const products = await Product.find().limit(5);
+    let productList = "Here are our top products:\n";
+    products.forEach((product, index) => {
+      productList += `${index + 1}. ${product.title} - $${product.price}\n`;
+    });
+    productList += "\nTo order, reply with 'order' followed by the product number (e.g., 'order 1').";
+    return productList;
+  } catch (error) {
+    console.error('Error in listProducts:', error);
+    return "We're sorry, but we couldn't retrieve the product list at this time. Please try again later.";
+  }
+};
+
+const handleOrder = async (message, userId) => {
+  try {
+    const orderNumber = parseInt(message.split(' ')[1]);
+    if (isNaN(orderNumber)) {
+      return "Invalid order number. Please try again with a valid number (e.g., 'order 1').";
+    }
+
+    const product = await Product.findOne().skip(orderNumber - 1);
+    if (!product) {
+      return "Product not found. Please try again with a valid product number.";
+    }
+
+    const order = new Order({
+      user: userId,
+      orderItems: [{
+        product: product._id,
+        quantity: 1,
+        price: product.price
+      }],
+      totalPrice: product.price,
+      totalPriceAfterDiscount: product.price,
+      orderStatus: "Pending"
+    });
+
+    await order.save();
+
+    return `Order placed successfully for ${product.title}. Your order ID is ${order._id}. To check status, reply with '3'.`;
+  } catch (error) {
+    console.error('Error in handleOrder:', error);
+    return "We're sorry, but an error occurred while placing your order. Please try again later.";
+  }
+};
+
+const checkOrderStatus = async (userId) => {
+  try {
+    const recentOrder = await Order.findOne({ user: userId }).sort({ createdAt: -1 });
+    if (!recentOrder) {
+      return "You have no recent orders.";
+    }
+    return `Your most recent order (ID: ${recentOrder._id}) status is: ${recentOrder.orderStatus}`;
+  } catch (error) {
+    console.error('Error in checkOrderStatus:', error);
+    return "We're sorry, but we couldn't retrieve your order status at this time. Please try again later.";
+  }
+};
 
 module.exports = {
   handleIncomingMessage,
