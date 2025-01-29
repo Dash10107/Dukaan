@@ -51,12 +51,12 @@ app.get('/', async (req, res) => {
 
 app.use(notFound);
 app.use(errorHandler);
-app.listen(PORT, () => {
-  console.log(`Server is running  at PORT ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is running  at PORT ${PORT}`);
+// });
 
 // Export the Express app as a serverless function
-// module.exports = app;
-// module.exports.handler = (req, res) => {
-//   return app(req, res);
-// };
+module.exports = app;
+module.exports.handler = (req, res) => {
+  return app(req, res);
+};
