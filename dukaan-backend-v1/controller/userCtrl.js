@@ -52,7 +52,7 @@ const createUser = asyncHandler(async (req, res) => {
       );
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        maxAge: 72 * 60 * 60 * 1000,
+        maxAge: 72 * 60 * 60 * 60000,
       });
       res.json({
         _id: findUser?._id,

@@ -23,12 +23,12 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required: true,
+      // required: true,
     },
-    brand: {
-      type: String,
-      required: true,
-    },
+    // brand: {
+    //   type: String,
+    //   required: true,
+    // },
     quantity: {
       type: Number,
       required: true,
@@ -43,7 +43,7 @@ const productSchema = new mongoose.Schema(
         url: String,
       },
     ],
-    color: [],
+    // color: [],
     tags: String,
     ratings: [
       {

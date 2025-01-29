@@ -9,6 +9,7 @@ const XLSX = require('xlsx');
 const {client} = require("../utils/elasticsearch");
 
 const createProduct = asyncHandler(async (req, res) => {
+  // console.log(re);
     try {
       if (req.body.title) {
         req.body.slug = slugify(req.body.title);
@@ -24,7 +25,7 @@ const createProduct = asyncHandler(async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         category: req.body.category,
-        brand: req.body.brand,
+        // brand: req.body.brand,
         tags: req.body.tags,
         price: req.body.price,
         quantity: req.body.quantity,
@@ -430,18 +431,9 @@ const recommend = async (req, res) => {
   
     try {
       // Read the uploaded file
-      // const tempFilePath = path.join('/tmp', 'bulk_upload_template.xlsx');
-
-      // // Copy the file to a writable location before reading
-      // fs.copyFileSync(filePath, tempFilePath);
-      
-      // Read the workbook from the writable location
       const workbook = XLSX.readFile(filePath);
       const sheetName = workbook.SheetNames[0];
       const sheetData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-      
-      // Cleanup: Remove the temporary file if needed
-      // fs.unlinkSync(tempFilePath);
       // console.log(sheetData);
       // Validate and transform data
       const products = sheetData.map((row) => ({
@@ -451,11 +443,10 @@ const recommend = async (req, res) => {
         price: row.price,
         quantity: row.quantity,
         category: row.category,
-        brand: row.brand,
-        color: row.color.split(',').map((color) => color.trim()),
+        // brand: row.brand,
+        // color: row.color.split(',').map((color) => color.trim()),
         tags: row.tags,
         seller: req.user._id, 
-        images: JSON.parse(row.images),
       }));
   
       // Save products to the database
