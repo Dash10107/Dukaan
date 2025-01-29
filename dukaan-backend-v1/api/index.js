@@ -10,8 +10,7 @@ const productRouter = require("../routes/productRoute");
 const blogRouter = require("../routes/blogRoute");
 const categoryRouter = require("../routes/prodcategoryRoute");
 const blogcategoryRouter = require("../routes/blogCatRoute");
-const brandRouter = require("../routes/brandRoute");
-const colorRouter = require("../routes/colorRoute");
+
 const enqRouter = require("../routes/enqRoute");
 const couponRouter = require("../routes/couponRoute");
 const uploadRouter = require("../routes/uploadRoute");
@@ -38,9 +37,9 @@ app.use("/api/product", productRouter);
 app.use("/api/blog", blogRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/blogcategory", blogcategoryRouter);
-app.use("/api/brand", brandRouter);
+// app.use("/api/brand", brandRouter);
 app.use("/api/coupon", couponRouter);
-app.use("/api/color", colorRouter);
+// app.use("/api/color", colorRouter);
 app.use("/api/enquiry", enqRouter);
 app.use("/api/upload", uploadRouter);
 app.use('/api/apikey', apiKeyRouter);
@@ -56,12 +55,12 @@ app.get('/', async (req, res) => {
 
 app.use(notFound);
 app.use(errorHandler);
-// app.listen(PORT, () => {
-//   console.log(`Server is running  at PORT ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server is running  at PORT ${PORT}`);
+});
 
 // Export the Express app as a serverless function
-module.exports = app;
-module.exports.handler = (req, res) => {
-  return app(req, res);
-};
+// module.exports = app;
+// module.exports.handler = (req, res) => {
+//   return app(req, res);
+// };
