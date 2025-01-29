@@ -24,7 +24,7 @@ const handleIncomingMessage = async (req, res) => {
     console.log('From:', From, 'Body:', Body);
     const userPhoneNumber = From.replace('whatsapp:+91', '');
     
-    let user = await User.findOne({ mobile: userPhoneNumber });
+    let user = await User.findOne({ mobile: userPhoneNumber.toString() });
     if (!user) {
       console.log(`New user detected: ${userPhoneNumber}`);
       
