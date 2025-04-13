@@ -25,7 +25,7 @@ dbConnect();
 app.use(morgan("dev"));
 // app.use(cors());
 app.use(cors({
-  origin: ["http://localhost:5173", ""], // Add allowed domains here
+  origin: ["http://localhost:5173", "https://digic-admin.vercel.app", "https://digic-frontend.vercel.app/"], // Add allowed domains here
   credentials: true, // Allow cookies to be sent with requests
 }));
 
