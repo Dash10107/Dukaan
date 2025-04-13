@@ -1,4 +1,4 @@
-export const base_url = "https://zengo-team.vercel.app/api";
+export const base_url = "https://digic-backend.vercel.app/api";
 // export const base_url = "http://localhost:4000/api";
 export const x_api_key = "2d0e3d3440f227bf159bb1fd85c86d92426b2953eb258e794f496b79c5b1b597"
 
