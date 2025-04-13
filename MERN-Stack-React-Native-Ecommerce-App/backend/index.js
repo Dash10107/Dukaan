@@ -9,7 +9,7 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const cartRouter = require("./routes/cart");
 mongoose
-  .connect("mongodb+srv://voravinay82:rs4XwUnZemy8CY8X@cluster0.wtqvc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+  .connect("video editing")
   .then(() => console.log("DB CONNECTED"))
   .catch((err) => console.log(err));
 
