@@ -38,7 +38,7 @@ export function ApiKeyGenerator() {
         <CardTitle>Generate API Key</CardTitle>
       </CardHeader>
       <CardContent>
-        <button type="button" onClick={generateApiKey} disabled={isLoading}>
+        <button type="button" onClick={generateApiKey} disabled={isLoading} className="bg-black rounded px-4 py-2 text-white">
           {isLoading ? "Generating..." : "Generate API Key"}
         </button>
         {apiKey && (

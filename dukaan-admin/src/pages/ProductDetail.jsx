@@ -32,7 +32,7 @@ export default function ProductDetail() {
 
   const handleAddToCart = () => {
     if (alreadyAdded) {
-      navigate("/cart")
+      navigate("/home/cart")
       return
     }
 

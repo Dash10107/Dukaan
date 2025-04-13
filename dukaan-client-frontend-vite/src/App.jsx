@@ -28,27 +28,28 @@ import { OpenRoute } from './routes/OpenRoute';
 import Order from './pages/Order';
 import Profile from './pages/Profile';
 import Api from './pages/API';
+import AuthLayout from './components/AuthLayout';
+import UserPreferences from './pages/Preferences';
+import LandingPage from './pages/updatedHome';
 function App() {
   return (
 <>
 <Provider store={store}>
 <BrowserRouter>
 <Routes>
-  <Route path='/' element={<Layout/>}>
-  <Route index element={<Home/>} />
+  <Route path='/home' element={<Layout/>}>
+  {/* <Route index element={<Home/>} /> */}
   <Route path="about" element={<About/>}/>
   <Route path="contact" element={<Contact/>}/>
   <Route path="product" element={<OurStore />} />
   <Route path="product/:id" element={<SingleProduct />} />
   <Route path="cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
-  <Route path="order" element={<PrivateRoute><Order/></PrivateRoute>} />
+  <Route path="order" element={<OpenRoute><Order/></OpenRoute>} />
   <Route path="checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
   <Route path="blogs" element={<Blog />} />
   <Route path="blog/:id" element={<SingleBlog />} />
   <Route path="compareproduct" element={<CompareProduct />} />
   <Route path="wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} />
-  <Route path="login" element={<OpenRoute><Login /></OpenRoute>} />
-  <Route path="signup" element={<OpenRoute><Signup /></OpenRoute>} />
   <Route path="my-profile" element={<Profile/>} />
   <Route path="forgot-password" element={<Forgotpassword />} />
   <Route path="reset-password/:token" element={<Resetpassword />} />
@@ -56,7 +57,13 @@ function App() {
   <Route path="refund-policy" element={<RefundPloicy />} />
   <Route path="shipping-policy" element={<ShippingPolicy />} />
   <Route path="term-conditions" element={<TermAndContions />} />
+  <Route index element={<LandingPage />} />
   <Route path='api' element={<Api/>} />
+  </Route>
+  <Route path='/' element={<AuthLayout />}>
+  <Route path="login" element={<OpenRoute><Login /></OpenRoute>} />
+  <Route path='preferences' element={<UserPreferences />} />
+  <Route index element={<OpenRoute><Signup /></OpenRoute>} />
   </Route>
 </Routes>
 </BrowserRouter>

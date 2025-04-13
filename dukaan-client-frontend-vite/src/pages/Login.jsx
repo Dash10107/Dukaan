@@ -35,8 +35,6 @@ const Login = () => {
 
   return (
     <>
-      <Meta title="Login" />
-      <BreadCrumb title="Login" />
       <div className="min-h-screen flex flex-col md:flex-row">
         {/* Left Section with Illustration */}
         <div className="w-full md:w-1/2  flex flex-col items-center justify-center p-8">

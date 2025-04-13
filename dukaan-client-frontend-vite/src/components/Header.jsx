@@ -38,7 +38,7 @@ const Header = () => {
 
   const handleClick = () => {
     if (user) {
-      navigate("/my-profile");
+      navigate("/home/my-profile");
     } else {
       navigate("/login");
     }
@@ -86,7 +86,7 @@ const Header = () => {
               Home
             </NavLink>
             <NavLink
-              to="/product"
+              to="/home/product"
               className={({ isActive }) =>
                 `text-sm font-medium transition-colors hover:text-purple-600 ${
                   isActive ? "text-purple-600" : "text-gray-700"
@@ -96,7 +96,7 @@ const Header = () => {
               Our Store
             </NavLink>
             <NavLink
-              to="/order"
+              to="/home/order"
               className={({ isActive }) =>
                 `text-sm font-medium transition-colors hover:text-purple-600 ${
                   isActive ? "text-purple-600" : "text-gray-700"
@@ -106,7 +106,7 @@ const Header = () => {
               My Orders
             </NavLink>
             <NavLink
-              to="/blogs"
+              to="/home/blogs"
               className={({ isActive }) =>
                 `text-sm font-medium transition-colors hover:text-purple-600 ${
                   isActive ? "text-purple-600" : "text-gray-700"
@@ -116,7 +116,7 @@ const Header = () => {
               Blogs
             </NavLink>
             <NavLink
-              to="/contact"
+              to="/home/contact"
               className={({ isActive }) =>
                 `text-sm font-medium transition-colors hover:text-purple-600 ${
                   isActive ? "text-purple-600" : "text-gray-700"
@@ -126,7 +126,7 @@ const Header = () => {
               Contact
             </NavLink>
             <NavLink
-              to="/api"
+              to="/home/api"
               className={({ isActive }) =>
                 `text-sm font-medium transition-colors hover:text-purple-600 ${
                   isActive ? "text-purple-600" : "text-gray-700"
@@ -140,7 +140,7 @@ const Header = () => {
           {/* Right Actions */}
           <div className="flex items-center space-x-6">
             <Link
-              to="/compareproduct"
+              to="/home/compareproduct"
               className="text-gray-700 hover:text-purple-600 transition-colors"
               title="Compare Products"
             >
@@ -148,7 +148,7 @@ const Header = () => {
             </Link>
             
             <Link
-              to="/wishlist"
+              to="/home/wishlist"
               className="text-gray-700 hover:text-purple-600 transition-colors"
               title="Wishlist"
             >
@@ -164,7 +164,7 @@ const Header = () => {
             </button>
 
             <Link
-              to="/cart"
+              to="/home/cart"
               className="text-gray-700 hover:text-purple-600 transition-colors relative"
               title="Cart"
             >

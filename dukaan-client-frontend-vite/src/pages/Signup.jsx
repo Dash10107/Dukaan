@@ -31,15 +31,13 @@ const Signup = () => {
     onSubmit: (values) => {
       const result = dispatch(registerUser(values))
       if (registerUser.fulfilled.match(result)) {
-        navigate("/login")
+        navigate("/preferences")
       }
     },
   })
 
   return (
     <>
-      <Meta title="Sign Up" />
-      <BreadCrumb title="Sign Up" />
       <div className="min-h-screen flex flex-col md:flex-row">
         {/* Left Section with Illustration */}
         <div className="w-full md:w-1/2  flex flex-col items-center justify-center p-8">

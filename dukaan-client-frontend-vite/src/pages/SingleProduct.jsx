@@ -237,7 +237,7 @@ const SingleProduct = () => {
                   onClick={(e) => {
                     e.preventDefault()
                     dispatch(addProductToCompare(product))
-                    navigate("/compareproduct")
+                    navigate("/home/compareproduct")
                   }}
                   className="flex items-center text-sm text-gray-600 hover:text-gray-900"
                 >
